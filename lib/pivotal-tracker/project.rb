@@ -9,7 +9,7 @@ module PivotalTracker
 
       def find(id)
         if @found
-          @found.detect { |document| document.id == id }
+          @found.detect { |document| document['id'] == id }
         else
           parse(Client.connection["/projects/#{id}"].get)
         end
@@ -36,7 +36,7 @@ module PivotalTracker
     end
 
     def create
-      response = Client.connection["/projects"].post(self.to_xml, :content_type => 'application/xml')
+      response = Client.connection["/projects"].post(self.to_json, :content_type => 'application/json')
       project = Project.parse(response)
       return project
     end
@@ -69,17 +69,6 @@ module PivotalTracker
     end
 
     protected
-
-      def to_xml
-        builder = Nokogiri::XML::Builder.new do |xml|
-          xml.project {
-            xml.name "#{name}"
-            xml.iteration_length.integer "#{iteration_length}" unless iteration_length.nil?
-            xml.point_scale "#{point_scale}" unless point_scale.nil?
-          }
-        end
-        return builder.to_xml
-      end
 
       def update_attributes(attrs)
         attrs.each do |key, value|

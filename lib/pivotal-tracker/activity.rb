@@ -5,9 +5,9 @@ module PivotalTracker
       def all(project=nil, options={})
         params = self.encode_options(options)
         if project
-          parse(Client.connection["/projects/#{project.id}/activities#{params}"].get)
+          parse(Client.connection["/projects/#{project.id}/activity#{params}"].get)
         else
-          parse(Client.connection["/activities#{params}"].get)
+          parse(Client.connection["/my/activity#{params}"].get)
         end
       end
 

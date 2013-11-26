@@ -5,19 +5,13 @@ module PivotalTracker
     class NoToken < StandardError; end
 
     class << self
-      attr_writer :use_ssl, :token, :tracker_host
+      attr_writer :token, :tracker_host
 
-      def use_ssl
-        @use_ssl || false
-      end
-
-      def token(username, password, method='post')
-        response = if method == 'post'
-          RestClient.post api_ssl_url + '/tokens/active', :username => username, :password => password
-        else
-          RestClient.get "#{api_ssl_url(username, password)}/tokens/active"
-        end
-        @token= Nokogiri::XML(response.body).search('guid').inner_html
+      def token(username, password)
+        resource = RestClient::Resource.new("#{api_url}/me", username, password)
+        response = resource.get
+        json = JSON.parse(response)
+        @token = json['api_token']
       end
 
       # this is your connection for the entire module
@@ -26,7 +20,7 @@ module PivotalTracker
 
         @connections ||= {}
 
-        cached_connection? && !protocol_changed? ? cached_connection : new_connection
+        cached_connection? ? cached_connection : new_connection
       end
 
       def clear_connections
@@ -37,20 +31,11 @@ module PivotalTracker
         @tracker_host ||= "www.pivotaltracker.com"
       end
 
-      def api_ssl_url(user=nil, password=nil)
-        user_password = (user && password) ? "#{user}:#{password}@" : ''
-        "https://#{user_password}#{tracker_host}#{api_path}"
-      end
-
       def api_url
-        "http://#{tracker_host}#{api_path}"
+        "https://#{tracker_host}#{api_path}"
       end
 
       protected
-
-        def protocol
-          use_ssl ? 'https' : 'http'
-        end
 
         def cached_connection?
           !@connections[@token].nil?
@@ -61,19 +46,11 @@ module PivotalTracker
         end
 
         def new_connection
-          @connections[@token] = RestClient::Resource.new("#{use_ssl ? api_ssl_url : api_url}", :headers => {'X-TrackerToken' => @token, 'Content-Type' => 'application/xml'})
-        end
-
-        def protocol_changed?
-          cached_connection? ? (cached_connection_protocol != protocol) : false
-        end
-
-        def cached_connection_protocol
-          cached_connection.url.match(/^(.*):\/\//).captures.first
+          @connections[@token] = RestClient::Resource.new(api_url, :headers => {'X-TrackerToken' => @token, 'Content-Type' => 'application/json'})
         end
 
         def api_path
-          '/services/v3'
+          '/services/v5'
         end
     end
 

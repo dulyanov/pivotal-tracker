@@ -5,8 +5,8 @@ module PivotalTracker
     class << self
       def all(project, options={})
         params = PivotalTracker.encode_options(options)
-        stories = parse(Client.connection["/projects/#{project.id}/stories#{params}"].get)
-        stories.each { |s| s.project_id = project.id }
+        stories = parse(Client.connection["/projects/#{project['id']}/stories#{params}"].get)
+        stories.each { |s| s['project_id'] = project['id'] }
         return stories
       end
 
