@@ -2,9 +2,11 @@ module PivotalTracker
   class Activity
     include Virtusable
 
+    RESOURCE_TYPES = %w(comment epic follower iteration label project_membership story task)
+
     class << self
       def all(project=nil, options={})
-        params = PivotalTracker.encode_options(options)
+        params = self.encode_options(options)
         if project
           parse(Client.connection["/projects/#{project.id}/activity#{params}"].get)
         else
@@ -19,16 +21,19 @@ module PivotalTracker
 
           options_string = []
           options_string << "limit=#{options.delete(:limit)}" if options[:limit]
-          options_string << "newer_than_version=#{options.delete(:newer_than_version)}" if options[:newer_than_version]
-
-          if options[:occurred_since]
-            options_string << "occurred_since_date=\"#{options[:occurred_since].utc}\""
-          elsif options[:occurred_since_date]
-            options_string << "occurred_since_date=#{URI.escape options[:occurred_since_date].strftime("%Y/%m/%d %H:%M:%S %Z")}"
-          end
+          options_string << "offset=#{options.delete(:offset)}" if options[:offset]
+          options_string << "since_version=#{options.delete(:since_version)}" if options[:since_version]
+          options_string << "occurred_after=#{parse_date options[:occurred_after]}" if options[:occurred_after]
+          options_string << "occurred_before=#{parse_date options[:occurred_before]}" if options[:occurred_before]
 
           return "?#{options_string.join('&')}"
         end
+
+      private
+
+      def parse_date(date)
+        date.to_datetime.strftime('%Q')
+      end
 
     end
 
@@ -42,5 +47,13 @@ module PivotalTracker
     attribute :changes, Array[PivotalTracker::Change]
     attribute :primary_resources, Array[PivotalTracker::PrimaryResource]
     attribute :occurred_at, DateTime
+
+    def resource_type
+      RESOURCE_TYPES.select{|item| kind.include? item}.first
+    end
+
+    def action
+      kind.gsub("#{resource_type}_","").gsub("_activity","")
+    end
   end
 end
