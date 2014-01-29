@@ -1,3 +1,10 @@
+== IMPORTANT!!
+This gem hasn't tests, and only works with V5 the following resources:
+
+Project, Story, Activities
+
+I don't guarantee that the other resources work well.
+
 = pivotal-tracker.rb
 
 Ruby wrapper for Pivotal Tracker API, no frameworks required. Simply Ruby.

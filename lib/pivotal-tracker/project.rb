@@ -1,6 +1,6 @@
 module PivotalTracker
   class Project
-    include HappyMapper
+    include Virtusable
 
     class << self
       def all
@@ -16,24 +16,31 @@ module PivotalTracker
       end
     end
 
-    element :id, Integer
-    element :name, String
-    element :account, String
-    element :week_start_day, String
-    element :point_scale, String
-    element :labels, String
-    element :velocity_scheme, String
-    element :iteration_length, Integer
-    element :initial_velocity, Integer
-    element :current_velocity, Integer
-    element :last_activity_at, DateTime
-    element :use_https, Boolean
-    element :first_iteration_start_time, DateTime
-    element :current_iteration_number, Integer
-
-    def initialize(attributes={})
-      update_attributes(attributes)
-    end
+    attribute :account_id, Integer
+    attribute :atom_enabled, Boolean
+    attribute :bugs_and_chores_are_estimatable, Boolean
+    attribute :created_at, DateTime
+    attribute :current_iteration_number, Integer
+    attribute :enable_following, Boolean
+    attribute :enable_incoming_emails, Boolean
+    attribute :enable_planned_mode, Boolean
+    attribute :enable_tasks, Boolean
+    attribute :has_google_domain, Boolean
+    attribute :id, Integer
+    attribute :initial_velocity, Integer
+    attribute :iteration_length, Integer
+    attribute :kind, String
+    attribute :name, String
+    attribute :number_of_done_iterations_to_show, Integer
+    attribute :point_scale, String
+    attribute :point_scale_is_custom, Boolean
+    attribute :public, Boolean
+    attribute :start_time, DateTime
+    attribute :time_zone, Hash[String => String]
+    attribute :updated_at, DateTime
+    attribute :velocity_averaged_over, Integer
+    attribute :version, Integer
+    attribute :week_start_day, String
 
     def create
       response = Client.connection["/projects"].post(self.to_json, :content_type => 'application/json')
@@ -67,14 +74,6 @@ module PivotalTracker
         raise ArgumentError, "Invalid group. Use :done, :current, :backlog or :current_backlog instead."
       end
     end
-
-    protected
-
-      def update_attributes(attrs)
-        attrs.each do |key, value|
-          self.send("#{key}=", value.is_a?(Array) ? value.join(',') : value )
-        end
-      end
 
   end
   class Project

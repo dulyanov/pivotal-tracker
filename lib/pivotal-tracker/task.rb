@@ -1,6 +1,7 @@
 module PivotalTracker
   class Task
-    include HappyMapper
+    include Virtusable
+    include Validation
 
     class << self
       def all(story, options={})
@@ -12,22 +13,14 @@ module PivotalTracker
 
     attr_accessor :project_id, :story_id
 
-    element :id, Integer
-    element :description, String
-    element :position, Integer
-    element :complete, Boolean
-    element :created_at, DateTime
-    has_one :story, Story
-
-    def initialize(attributes={})
-      if attributes[:owner]
-        self.story = attributes.delete(:owner)
-        self.project_id = self.story.project_id
-        self.story_id = self.story.id
-      end
-
-      update_attributes(attributes)
-    end
+    attribute :id, Integer
+    attribute :description, String
+    attribute :position, Integer
+    attribute :complete, Boolean
+    attribute :created_at, DateTime
+    attribute :updated_at, DateTime
+    attribute :kind, String
+    attribute :story_id, Integer
 
     def create
       response = Client.connection["/projects/#{project_id}/stories/#{story_id}/tasks"].post(self.to_xml, :content_type => 'application/xml')
@@ -43,29 +36,5 @@ module PivotalTracker
     def delete
       Client.connection["/projects/#{project_id}/stories/#{story_id}/tasks/#{id}"].delete
     end
-
-    protected
-
-      def to_xml
-        builder = Nokogiri::XML::Builder.new do |xml|
-          xml.task {
-            xml.description "#{description}"
-            # xml.position "#{position}"
-            xml.complete "#{complete}"
-          }
-        end
-        return builder.to_xml
-      end
-      
-      def update_attributes(attrs)
-        attrs.each do |key, value|
-          self.send("#{key}=", value.is_a?(Array) ? value.join(',') : value )
-        end
-      end
-
-  end
-
-  class Task
-    include Validation
   end
 end

@@ -1,6 +1,6 @@
 module PivotalTracker
   class Note
-    include HappyMapper
+    include Virtusable
 
     class << self
       def all(story, options={})
@@ -12,11 +12,11 @@ module PivotalTracker
 
     attr_accessor :project_id, :story_id
 
-    element :id, Integer
-    element :text, String
-    element :author, String
-    element :noted_at, DateTime
-    has_one :story, Story
+    attribute :id, Integer
+    attribute :text, String
+    attribute :author, String
+    attribute :noted_at, DateTime
+    # has_one :story, Story
 
     def initialize(attributes={})
       if attributes[:owner]

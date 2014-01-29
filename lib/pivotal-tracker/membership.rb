@@ -1,6 +1,6 @@
 module PivotalTracker
   class Membership
-    include HappyMapper
+    include Virtusable
 
     class << self
       def all(project, options={})
@@ -8,13 +8,13 @@ module PivotalTracker
       end
     end
 
-    element :id, Integer
-    element :role, String
+    attribute :id, Integer
+    attribute :role, String
 
     # Flattened Attributes from <person>...</person>
-    element :name, String, :deep => true
-    element :email, String, :deep => true
-    element :initials, String, :deep => true
+    attribute :name, String#, :deep => true
+    attribute :email, String#, :deep => true
+    attribute :initials, String#, :deep => true
 
   end
 end

@@ -1,6 +1,7 @@
 module PivotalTracker
   class Activity
-    include HappyMapper
+    include Virtusable
+
     class << self
       def all(project=nil, options={})
         params = self.encode_options(options)
@@ -31,15 +32,15 @@ module PivotalTracker
 
     end
 
-    element :id, Integer
-    element :version, Integer
-    element :event_type, String
-    element :occurred_at, DateTime
-    element :author, String
-    element :project_id, Integer
-    element :description, String
-
-    has_many :stories, Story
-
+    attribute :project_version, Integer
+    attribute :project, Hash[String => String]
+    attribute :performed_by, Hash[String => String]
+    attribute :kind, String
+    attribute :guid, String
+    attribute :message, String
+    attribute :highlight, String
+    attribute :changes, Array[PivotalTracker::Change]
+    attribute :primary_resources, Array[PivotalTracker::PrimaryResource]
+    attribute :occurred_at, DateTime
   end
 end

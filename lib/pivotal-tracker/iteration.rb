@@ -1,6 +1,6 @@
 module PivotalTracker
   class Iteration
-    include HappyMapper
+    include Virtusable
 
     class << self
       def all(project, options={})
@@ -29,12 +29,12 @@ module PivotalTracker
       end
     end
 
-    element :id, Integer
-    element :number, Integer
-    element :start, DateTime
-    element :finish, DateTime
-    element :team_strength, Float
-    has_many :stories, Story, :xpath => './/stories'
+    attribute :id, Integer
+    attribute :number, Integer
+    attribute :start, DateTime
+    attribute :finish, DateTime
+    attribute :team_strength, Float
+    # has_many :stories, Story, :xpath => './/stories'
 
   end
 end
