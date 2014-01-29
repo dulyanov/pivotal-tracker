@@ -13,5 +13,15 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = "2.0.7"
   s.summary = "Ruby wrapper for the Pivotal Tracker API"
+
+  s.add_dependency "rest-client"
+  s.add_dependency "hashie"
+  s.add_dependency "json"
+  s.add_dependency "nokogiri-happymapper"
+  s.add_dependency "nokogiri"
+  s.add_dependency "virtus"
+  s.add_dependency "builder"
+  s.add_development_dependency "bundler"
+  s.add_development_dependency "rake"
 end
 

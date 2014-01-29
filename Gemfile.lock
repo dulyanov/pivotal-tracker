@@ -1,3 +1,15 @@
+PATH
+  remote: .
+  specs:
+    pivotal-tracker (0.5.12)
+      builder
+      hashie
+      json
+      nokogiri
+      nokogiri-happymapper
+      rest-client
+      virtus
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -18,6 +30,7 @@ GEM
       mini_portile (~> 0.5.0)
     nokogiri-happymapper (0.5.8)
       nokogiri (~> 1.5)
+    rake (10.1.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     virtus (1.0.1)
@@ -30,10 +43,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  builder
-  hashie
-  json
-  nokogiri (>= 1.5.5)
-  nokogiri-happymapper (>= 0.5.4)
-  rest-client (~> 1.6.0)
-  virtus
+  bundler
+  pivotal-tracker!
+  rake
