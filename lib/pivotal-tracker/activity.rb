@@ -4,7 +4,7 @@ module PivotalTracker
 
     class << self
       def all(project=nil, options={})
-        params = self.encode_options(options)
+        params = PivotalTracker.encode_options(options)
         if project
           parse(Client.connection["/projects/#{project.id}/activity#{params}"].get)
         else
