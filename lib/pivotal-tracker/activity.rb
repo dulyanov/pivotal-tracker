@@ -32,7 +32,7 @@ module PivotalTracker
       private
 
       def parse_date(date)
-        date.to_datetime.strftime('%Q')
+        date.to_datetime.strftime('%Q').to_i
       end
 
     end
