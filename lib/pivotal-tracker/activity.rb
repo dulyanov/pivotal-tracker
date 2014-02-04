@@ -38,8 +38,8 @@ module PivotalTracker
     end
 
     attribute :project_version, Integer
-    attribute :project, Hash[String => String]
-    attribute :performed_by, Hash[String => String]
+    attribute :project, Coercion::Hashie
+    attribute :performed_by, Coercion::Hashie
     attribute :kind, String
     attribute :guid, String
     attribute :message, String

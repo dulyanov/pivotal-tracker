@@ -36,7 +36,7 @@ module PivotalTracker
     attribute :point_scale_is_custom, Boolean
     attribute :public, Boolean
     attribute :start_time, DateTime
-    attribute :time_zone, Hash[String => String]
+    attribute :time_zone, Coercion::Hashie
     attribute :updated_at, DateTime
     attribute :velocity_averaged_over, Integer
     attribute :version, Integer
