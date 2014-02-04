@@ -9,12 +9,11 @@ module PivotalTracker
     end
 
     attribute :id, Integer
+    attribute :kind, String
+    attribute :last_viewed_at, DateTime
+    attribute :person, Coercion::Hashie
+    attribute :project_color, String
+    attribute :project_id, Integer
     attribute :role, String
-
-    # Flattened Attributes from <person>...</person>
-    attribute :name, String#, :deep => true
-    attribute :email, String#, :deep => true
-    attribute :initials, String#, :deep => true
-
   end
 end
