@@ -23,6 +23,7 @@ module PivotalTracker
   autoload :Task, "pivotal-tracker/task"
   autoload :Validation, "pivotal-tracker/validation"
   autoload :Virtusable, "pivotal-tracker/virtusable"
+  autoload :Epic, "pivotal-tracker/epic"
 
   module Coercion
     autoload :Hashie, "pivotal-tracker/coercion/hashie"

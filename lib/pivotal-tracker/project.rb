@@ -64,6 +64,10 @@ module PivotalTracker
       @memberships ||= Proxy.new(self, Membership)
     end
 
+    def epics
+      @epics ||= Proxy.new(self, Epic)
+    end
+
     def iteration(group)
       case group.to_sym
       when :done then Iteration.done(self)
