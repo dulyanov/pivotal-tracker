@@ -22,7 +22,7 @@ module PivotalTracker
       end
     end
 
-    attribute :label_id, Integer
+    attribute :label, Label
     attribute :id, Integer
     attribute :description, String
     attribute :project_id, Integer

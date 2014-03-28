@@ -68,6 +68,10 @@ module PivotalTracker
       @epics ||= Proxy.new(self, Epic)
     end
 
+    def labels
+      @labels ||= Proxy.new(self, Label)
+    end
+
     def iteration(group)
       case group.to_sym
       when :done then Iteration.done(self)
