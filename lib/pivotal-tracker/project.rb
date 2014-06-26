@@ -3,8 +3,10 @@ module PivotalTracker
     include Virtusable
 
     class << self
-      def all
-        @found = parse(Client.connection['/projects'].get)
+      def all(query_string=nil)
+        url = "/projects"
+        url += "?#{query_string}" unless query_string.blank?
+        @found = parse(Client.connection[url].get)
       end
 
       def find(id)
@@ -21,6 +23,7 @@ module PivotalTracker
     attribute :bugs_and_chores_are_estimatable, Boolean
     attribute :created_at, DateTime
     attribute :current_iteration_number, Integer
+    attribute :current_velocity, Integer
     attribute :enable_following, Boolean
     attribute :enable_incoming_emails, Boolean
     attribute :enable_planned_mode, Boolean
