@@ -31,6 +31,7 @@ module PivotalTracker
     attribute :id, Integer
     attribute :project_id, Integer
     attribute :description, String
+    attribute :estimate, Integer
     attribute :owner_ids, Array[Integer]
     attribute :accepted_at, DateTime
     attribute :updated_at, DateTime
