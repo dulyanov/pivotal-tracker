@@ -11,9 +11,11 @@ module PivotalTracker
   autoload :Attachment, "pivotal-tracker/attachment"
   autoload :Change, "pivotal-tracker/change"
   autoload :Client, "pivotal-tracker/client"
+  autoload :Epic, "pivotal-tracker/epic"
   autoload :Extensions, "pivotal-tracker/extensions"
   autoload :Iteration, "pivotal-tracker/iteration"
   autoload :Label, "pivotal-tracker/label"
+  autoload :Me, "pivotal-tracker/me"
   autoload :Membership, "pivotal-tracker/membership"
   autoload :Note, "pivotal-tracker/note"
   autoload :PrimaryResource, "pivotal-tracker/primary_resource"
@@ -23,7 +25,6 @@ module PivotalTracker
   autoload :Task, "pivotal-tracker/task"
   autoload :Validation, "pivotal-tracker/validation"
   autoload :Virtusable, "pivotal-tracker/virtusable"
-  autoload :Epic, "pivotal-tracker/epic"
 
   module Coercion
     autoload :Hashie, "pivotal-tracker/coercion/hashie"
